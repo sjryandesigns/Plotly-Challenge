@@ -1,4 +1,13 @@
-// Handler and listener for capturing user input
+// // Handler and listener for capturing user input
+// d3.selectAll("#selDataset").on("change", updatePlotly);
+
+// function updatePlotly() {
+
+//     var dropdownMenu = d3.select("#selDataset");
+//     var sampleID = dropdownMenu.property("values");
+
+    
+
 
 
 
@@ -18,27 +27,58 @@
 
 d3.json("samples.json").then((sampleData)=>{
     console.log(sampleData)
+  // Save data into variables
 
-    var sortedBySampleValues = sampleData.samples[0].sort((a,b) => )
+    // var sampleValuesSort = sampleData.samples[0].sample_values.sort((a,b) => b.sample_values-a.sample_values);
+    // console.log(sampleValuesSort)
 
-    var otu_ids = sampleData.samples[0].otu_ids;
-    console.log(otu_ids)
+    }
+    )
 
-    var otu_labels sampleData.samples
-
-
-
-}
-
+  
+    
 
 
 
-);
 
 
-// Save data into variables
 
-// Plot Bar Chart
+
+
+
+
+
+
+
+
+// // Plot Bar Chart
+// function buildPlot() {
+
+
+//     var trace1 = {
+//         x: reversedData.map(object => object.greekSearchResults),
+//         y: reversedData.map(object => object.greekName),
+//         text: reversedData.map(object => object.greekName),
+//         name: "Greek",
+//         type: "bar",
+//         orientation: "h"
+//       };
+      
+//       // data
+//       var data = [trace1];
+      
+//       //  Create a layout, what else can you do here besides titles?
+//       var layout = {
+//         title: "Greek gods search results",
+//         margin: {
+//           l: 100,
+//           r: 100,
+//           t: 100,
+//           b: 100
+//         }
+//       };
+
+
 
 
 
