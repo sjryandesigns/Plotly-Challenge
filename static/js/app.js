@@ -2,6 +2,13 @@ d3.json("samples.json").then((data) => {
     console.log(data);
     var sampleData = data;
 
+    var dropdownMenu = d3.select("#selDataset");
+
+    sampleData.names.forEach(function(name){
+        dropdownMenu.append("option").text(name).property("value");
+    });
+
+    buildPlot(sampleData.names[0]);
 
 // Define fuction to build plots
 function buildPlot(index) {
@@ -133,19 +140,19 @@ function buildPlot(index) {
 };
 
 // Create function to initialize dashboard
-function init(){
+// function init(){
 
-    // d3.json("samples.json").then((data) => {
-    //     console.log(data);
-    //     var sampleData = data;
-    var dropdownMenu = d3.select("#selDataset");
+//     // d3.json("samples.json").then((data) => {
+//     //     console.log(data);
+//     //     var sampleData = data;
+//     var dropdownMenu = d3.select("#selDataset");
 
-    sampleData.names.forEach(function(name){
-        dropdownMenu.append("option").text(name).property("value");
-    });
+//     sampleData.names.forEach(function(name){
+//         dropdownMenu.append("option").text(name).property("value");
+//     });
 
-    buildPlot(sampleData.names[0]);
-};
+//     buildPlot(sampleData.names[0]);
+// };
 
 
 // Handler and listener for capturing user input
@@ -167,4 +174,4 @@ function optionChanged(){
 };
 
 
-init();
+// init();
