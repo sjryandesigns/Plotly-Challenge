@@ -1,41 +1,15 @@
+d3.json("samples.json").then((data) => {
+    console.log(data);
+    var sampleData = data;
 
-var dropdownMenu = d3.select("#selDataset");
+    var dropdownMenu = d3.select("#selDataset");
 
-var demoTable = d3.select("#sample-metadata");
+    sampleData.names.forEach(function(name){
+        dropdownMenu.append("option").text(name).property("value");
+    });
 
-var barChart = d3.select("#bar");
+    buildPlot(0);
 
-var bubbleChart = d3.select("bubble");
-
-var gaugeChart = d3.select("gauge");
-
-
-
-// Create function to initialize dashboard
-function init(){
-
-    resetData();
- 
-    d3.json("samples.json").then((data) => {
-        console.log(data);
-        var sampleData = data;
-    
-        sampleData.names.forEach(function(name){
-            dropdownMenu.append("option").text(name).property("value");
-        });
-
-        var initID = dropdownMenu.property("value");
-        buildPlot(initID);
-    }));
-};
-
-function resetData() {
-
-    demoTable.html("");
-    barChart.html("");
-    bubbleChart.html("");
-    gaugeChart.html("");
-};
 // Define fuction to build plots
 function buildPlot(index) {
 
@@ -114,61 +88,22 @@ function buildPlot(index) {
     console.log(demoKeys);
     var demoValues = Object.values(sampleData.metadata[index]);
     console.log(demoValues);
+
     var demoData = d3.select('#sample-metadata');
 
     // Clear demographic data
     demoData.html("");
+    // var selection = demoData
+    // Object.entries(sampleData.metadata)forEach(([key, value])=> {
+    //     var li = selection.append("p").text("${key} : ${value}");
+    // })
     // Append demographic data to demographics section of html
     for (var i=0; i < demoKeys.length; i++) {
         demoData.append("p").text("${demoKeys[i]}: ${demoValues[i]}");
     };
-        
-    // Get data needs for Gauge chart (BONUS)
-    var washFreq = sampleData.metadata[index].wfreq;
-
-    // Create Gauge plot 
-    var gaugeTrace = [{
-        domain: {x: [0,1], y: [0,1]},
-        type: "indicator", 
-        mode: "gauge+number",
-        value: washFreq,
-        title: {text: "Belly Button Washes per Week"},
-        gauge:{
-            axis: {range: [0,9], tickwidth: 0.5, tickcolor:"black"},
-            bar: {color: "#669999"},
-            bgcolor: "white",
-            borderwidth: 2,
-            bordercolor: "transparent",
-            steps: [
-                {range: [0,1], color: "#fff"},
-                {range: [1,2], color: "#e6fff5"},
-                {range: [2,3], color: "#ccffeb"},
-                {range: [3,4], color: "#b3fe0"},
-                {range: [4,5], color: "#99ffd6"},
-                {range: [5,6], color: "#80ffcc"},
-                {range: [6,7], color: "#66ffc2"},
-                {range: [7,8], color: "#4dffb8"},
-                {range: [8,9], color: "#33ffad"},
-            ]
-        }
-    }];
-    
-    var gaugeData = [gaugeTrace];
-
-    var gaugeLayout = {
-        width: 600,
-        height: 500,
-        margin: {t:0, b:0}
-    };
-
-    Plotly.newPlot("gauge", gaugeData, gaugeLayout);
-
 };
 
-
-
 // Handler and listener for capturing user input
-
 // Add event listener for test subject ID dropdown
 d3.selectAll("#selDataset").on("change", optionChanged);
 
@@ -185,3 +120,47 @@ function optionChanged(){
     }
 };
 });
+
+
+
+
+
+ // // Get data needs for Gauge chart (BONUS)
+    // var washFreq = sampleData.metadata[index].wfreq;
+
+    // // Create Gauge plot 
+    // var gaugeTrace = [{
+    //     domain: {x: [0,1], y: [0,1]},
+    //     type: "indicator", 
+    //     mode: "gauge+number",
+    //     value: washFreq,
+    //     title: {text: "Belly Button Washes per Week"},
+    //     gauge:{
+    //         axis: {range: [0,9], tickwidth: 0.5, tickcolor:"black"},
+    //         bar: {color: "#669999"},
+    //         bgcolor: "white",
+    //         borderwidth: 2,
+    //         bordercolor: "transparent",
+    //         steps: [
+    //             {range: [0,1], color: "#fff"},
+    //             {range: [1,2], color: "#e6fff5"},
+    //             {range: [2,3], color: "#ccffeb"},
+    //             {range: [3,4], color: "#b3fe0"},
+    //             {range: [4,5], color: "#99ffd6"},
+    //             {range: [5,6], color: "#80ffcc"},
+    //             {range: [6,7], color: "#66ffc2"},
+    //             {range: [7,8], color: "#4dffb8"},
+    //             {range: [8,9], color: "#33ffad"},
+    //         ]
+    //     }
+    // }];
+    
+    // var gaugeData = [gaugeTrace];
+
+    // var gaugeLayout = {
+    //     width: 600,
+    //     height: 500,
+    //     margin: {t:0, b:0}
+    // };
+
+    // Plotly.newPlot("gauge", gaugeData, gaugeLayout);
