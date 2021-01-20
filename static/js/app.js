@@ -1,177 +1,162 @@
+// // Create function to initialize dashboard
+function init(){
 
-// Read in data and console log
+    d3.json("samples.json").then((sampleData) => {
+        console.log(sampleData);
 
-// BUbble chart >> otu_ids (x values, marker color), sample_values(y values & marker size), otu_labels (text values)
+        var dropdownMenu = d3.select("#selDataset");
 
-// d3.json("samples.json").then((sampleData)=>{
-//     console.log(sampleData)
-
-//     // Save data into variables
-//     var otu_ids = sampleData.samples[0].otu_ids;
-//     console.log(otu_ids);
-//     var otu_labels = sampleData.samples[0].otu_labels.slice(0,10);
-//     console.log(otu_labels);
-//     var sample_values = sampleData.samples[0].sample_values.slice(0,10);
-//     console.log(sample_values); 
-
-//     var topTenOTU = otu_ids.slice(0,10);
-//     console.log(topTenOTU);
-
-//     var topTenLabels = topTenOTU.map((otu => "OTU " + otu));
-//     console.log(topTenLabels)
-// })
+        sampleData.names.forEach(function(name){
+            dropdownMenu.append("option").text(name).property("value");
+        });
 
 
-// Plot Bar Chart
-// function buildPlot() {
-    d3.json("samples.json").then((sampleData)=>{
-        console.log(sampleData)
-    
-        // Save data into variables
-        var otu_ids = sampleData.samples[0].otu_ids;
-        console.log(otu_ids);
-        var otu_labels = sampleData.samples[0].otu_labels;
-        console.log(otu_labels);
-        var sampleValue = sampleData.samples[0].sample_values;
-        console.log(sampleValue); 
-    
-        var topTenOTU = otu_ids.slice(0,10).reverse();
-        console.log(topTenOTU);
-    
-        var topTenLabels = topTenOTU.map((otu => "OTU " + otu));
-        console.log(topTenLabels)
-    
-
-// // Top 10 OTUs found in single ID >> sample_values(values), otu_ids(labels), otu_labels (hovertext)
-        var barTrace = {
-            x: sampleValue.slice(0,10).reverse(),
-            y: topTenLabels,
-            hovertext: otu_labels.slice(0,10).reverse(),
-            type: "bar",
-            orientation: "h",
-        };
-        
-        // data
-        var barData = [barTrace];
-        
-        //  Create a layout, what else can you do here besides titles?
-        var barLayout = {
-            title: "Top 10 OTU",
-            // yaxis:{
-            //     tickmode: "linear",
-            // },
-            margin: {
-            l: 100,
-            r: 100,
-            t: 100,
-            b: 30
-            }
-        };
-
-        Plotly.newPlot("bar", barData, barLayout)
-
-        // Plot Bubble Chart
-
-        var bubbleTrace = {
-            x: otu_ids,
-            y: sampleValue,
-            text: otu_labels,
-            mode: 'markers',
-            marker: {
-                color: otu_ids,
-                size: sampleValue,
-            }
-        };
-    
-        var bubbleData = [bubbleTrace];
-    
-        var bubbleLayout = {
-            xaxis:{
-                title: "OTU ID"
-            },
-            showlegend: false,
-            height: 600,
-            width: 1000,
-        };
-        
-        Plotly.newPlot('bubble', bubbleData, bubbleLayout);
-
-
-
-
-
-
-
+        buildPlot(sampleData.names[0]);
     });
+};
+// Handler and listener for capturing user input
 
-  
+// // Add event listener for test subject ID dropdown
+// d3.selectAll("#selDataset").on("change", optionChanged);
+// // Handler for change on test subject ID no dropdown
+// function optionChanged()
+// //   d3.event.preventDefault();
+//   var testSubjectID = dropdownMenu.property("value");
+//   console.log(testSubjectID);
+// });
+//   // clear the input value
+//   d3.select("#stockInput").node().value = "";
 
+//   // Build the plot with the new stock
+//   buildPlot(stock);
+// }
 
+// Define fuction to build plots
+function buildPlot() {
 
-
-
-
-
-
-
-
-
-
-
+    // Save needed data for plots to variables 
+    var otu_ids = sampleData.samples[0].otu_ids;
+    console.log(otu_ids);
+    var otu_labels = sampleData.samples[0].otu_labels;
+    console.log(otu_labels);
+    var sampleValue = sampleData.samples[0].sample_values;
+    console.log(sampleValue); 
+        
+    // Get top 10 OTU ids and save to variable with correct format for plot
+    var topTenOTU = otu_ids.slice(0,10).reverse();
+    console.log(topTenOTU);
     
+    var topTenLabels = topTenOTU.map((otu => "OTU " + otu));
+    console.log(topTenLabels)
+        
+    // Create bar plot 
+    // Bar Trace
+    var barTrace = {
+        x: sampleValue.slice(0,10).reverse(),
+        y: topTenLabels,
+        hovertext: otu_labels.slice(0,10).reverse(),
+        type: "bar",
+        orientation: "h",
+    };
+        
+    // Bar Data
+    var barData = [barTrace];
+        
+    //  Bar Layout
+    var barLayout = {
+        title: "Top 10 OTU",
+        margin: {
+        l: 100,
+        r: 100,
+        t: 100,
+        b: 30
+        }
+    };
+    // Plot Bar chart using data and layout
+    Plotly.newPlot("bar", barData, barLayout)
 
+    // Plot Bubble Chart
+    // Bubble Trace
+    var bubbleTrace = {
+        x: otu_ids,
+        y: sampleValue,
+        text: otu_labels,
+        mode: 'markers',
+        marker: {
+            color: otu_ids,
+            size: sampleValue,
+        }
+    };
+        
+    // Bubble Data
+    var bubbleData = [bubbleTrace];
+     
+    // Bubble Layout
+    var bubbleLayout = {
+        xaxis:{
+            title: "OTU ID"
+        },
+        showlegend: false,
+        height: 600,
+        width: 1000,
+    };
+        
+    // Plot Bubble chart using data and layout
+    Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+        
+    // Get data needs for Demographics section
+    var demoKeys = Object.keys(sampleData.metadata[0]);
+    console.log(demoKeys);
+    var demoValues = Object.values(sampleData.metadata[0]);
+    console.log(demoValues);
+    var demoData = d3.select('#sample-metadata');
 
-// // // Handler and listener for capturing user input
-// // d3.selectAll("#selDataset").on("change", updatePlotly);
+    // Clear demographic data
+    demoData.html("");
+    // Append demographic data to demographics section of html
+    for (var i=0; i < demoKeys.length; i++) {
+        demoData.append("p").text('${demoKeys[i]}: ${demoValues[i]}');
+    };
+        
+    // Get data needs for Gauge chart (BONUS)
+    var washFreq = sampleData.metadata[0].wfreq;
 
-// // function updatePlotly() {
-
-// //     var dropdownMenu = d3.select("#selDataset");
-// //     var sampleID = dropdownMenu.property("values");
-
+    // Create Gauge plot 
+    var gaugeTrace = [{
+        domain: {x: [0,1], y: [0,1]},
+        type: "indicator", 
+        mode: "gauge+number",
+        value: washFreq,
+        title: {text: "Belly Button Washes per Week"},
+        gauge:{
+            axis: {range: [0,9], tickwidth: 0.5, tickcolor:"black"},
+            bar: {color: "#669999"},
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "transparent",
+            steps: [
+                {range: [0,1], color: "#fff"},
+                {range: [1,2], color: "#e6fff5"},
+                {range: [2,3], color: "#ccffeb"},
+                {range: [3,4], color: "#b3fe0"},
+                {range: [4,5], color: "#99ffd6"},
+                {range: [5,6], color: "#80ffcc"},
+                {range: [6,7], color: "#66ffc2"},
+                {range: [7,8], color: "#4dffb8"},
+                {range: [8,9], color: "#33ffad"},
+            ]
+        }
+    }];
     
+    var gaugeData = [gaugeTrace];
 
+    var gaugeLayout = {
+        width: 600,
+        height: 500,
+        margin: {t:0, b:0}
+    };
 
+    Plotly.newPlot("gauge", gaugeData, gaugeLayout);
 
-
-// // Update dashboard with user input
-
-
-// // Initialize dashboard
-
-
-
-// // Sample metadata (demographic information) for each ID
-
-
-// // Display key-value pair from metadata JSON object 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Define error function
-
-
-// Display same metadata
-
-// Display key-value pair from metadata JSON object 
-// 
+};
+init();
