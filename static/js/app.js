@@ -1,45 +1,17 @@
-// // Create function to initialize dashboard
-function init(){
+d3.json("samples.json").then((data) => {
+    console.log(data);
+    var sampleData = data;
 
-    d3.json("samples.json").then((sampleData) => {
-        console.log(sampleData);
-
-        var dropdownMenu = d3.select("#selDataset");
-
-        sampleData.names.forEach(function(name){
-            dropdownMenu.append("option").text(name).property("value");
-        });
-
-
-        buildPlot(sampleData.names[0]);
-    });
-};
-// Handler and listener for capturing user input
-
-// // Add event listener for test subject ID dropdown
-// d3.selectAll("#selDataset").on("change", optionChanged);
-// // Handler for change on test subject ID no dropdown
-// function optionChanged()
-// //   d3.event.preventDefault();
-//   var testSubjectID = dropdownMenu.property("value");
-//   console.log(testSubjectID);
-// });
-//   // clear the input value
-//   d3.select("#stockInput").node().value = "";
-
-//   // Build the plot with the new stock
-//   buildPlot(stock);
-// }
 
 // Define fuction to build plots
-function buildPlot() {
+function buildPlot(index) {
 
     // Save needed data for plots to variables 
-    var otu_ids = sampleData.samples[0].otu_ids;
+    var otu_ids = sampleData.samples[index].otu_ids;
     console.log(otu_ids);
-    var otu_labels = sampleData.samples[0].otu_labels;
+    var otu_labels = sampleData.samples[index].otu_labels;
     console.log(otu_labels);
-    var sampleValue = sampleData.samples[0].sample_values;
+    var sampleValue = sampleData.samples[index].sample_values;
     console.log(sampleValue); 
         
     // Get top 10 OTU ids and save to variable with correct format for plot
@@ -105,9 +77,9 @@ function buildPlot() {
     Plotly.newPlot('bubble', bubbleData, bubbleLayout);
         
     // Get data needs for Demographics section
-    var demoKeys = Object.keys(sampleData.metadata[0]);
+    var demoKeys = Object.keys(sampleData.metadata[index]);
     console.log(demoKeys);
-    var demoValues = Object.values(sampleData.metadata[0]);
+    var demoValues = Object.values(sampleData.metadata[index]);
     console.log(demoValues);
     var demoData = d3.select('#sample-metadata');
 
@@ -118,45 +90,81 @@ function buildPlot() {
         demoData.append("p").text('${demoKeys[i]}: ${demoValues[i]}');
     };
         
-    // Get data needs for Gauge chart (BONUS)
-    var washFreq = sampleData.metadata[0].wfreq;
+    // // Get data needs for Gauge chart (BONUS)
+    // var washFreq = sampleData.metadata[index].wfreq;
 
-    // Create Gauge plot 
-    var gaugeTrace = [{
-        domain: {x: [0,1], y: [0,1]},
-        type: "indicator", 
-        mode: "gauge+number",
-        value: washFreq,
-        title: {text: "Belly Button Washes per Week"},
-        gauge:{
-            axis: {range: [0,9], tickwidth: 0.5, tickcolor:"black"},
-            bar: {color: "#669999"},
-            bgcolor: "white",
-            borderwidth: 2,
-            bordercolor: "transparent",
-            steps: [
-                {range: [0,1], color: "#fff"},
-                {range: [1,2], color: "#e6fff5"},
-                {range: [2,3], color: "#ccffeb"},
-                {range: [3,4], color: "#b3fe0"},
-                {range: [4,5], color: "#99ffd6"},
-                {range: [5,6], color: "#80ffcc"},
-                {range: [6,7], color: "#66ffc2"},
-                {range: [7,8], color: "#4dffb8"},
-                {range: [8,9], color: "#33ffad"},
-            ]
-        }
-    }];
+    // // Create Gauge plot 
+    // var gaugeTrace = [{
+    //     domain: {x: [0,1], y: [0,1]},
+    //     type: "indicator", 
+    //     mode: "gauge+number",
+    //     value: washFreq,
+    //     title: {text: "Belly Button Washes per Week"},
+    //     gauge:{
+    //         axis: {range: [0,9], tickwidth: 0.5, tickcolor:"black"},
+    //         bar: {color: "#669999"},
+    //         bgcolor: "white",
+    //         borderwidth: 2,
+    //         bordercolor: "transparent",
+    //         steps: [
+    //             {range: [0,1], color: "#fff"},
+    //             {range: [1,2], color: "#e6fff5"},
+    //             {range: [2,3], color: "#ccffeb"},
+    //             {range: [3,4], color: "#b3fe0"},
+    //             {range: [4,5], color: "#99ffd6"},
+    //             {range: [5,6], color: "#80ffcc"},
+    //             {range: [6,7], color: "#66ffc2"},
+    //             {range: [7,8], color: "#4dffb8"},
+    //             {range: [8,9], color: "#33ffad"},
+    //         ]
+    //     }
+    // }];
     
-    var gaugeData = [gaugeTrace];
+    // var gaugeData = [gaugeTrace];
 
-    var gaugeLayout = {
-        width: 600,
-        height: 500,
-        margin: {t:0, b:0}
-    };
+    // var gaugeLayout = {
+    //     width: 600,
+    //     height: 500,
+    //     margin: {t:0, b:0}
+    // };
 
-    Plotly.newPlot("gauge", gaugeData, gaugeLayout);
+    // Plotly.newPlot("gauge", gaugeData, gaugeLayout);
 
 };
+
+// Create function to initialize dashboard
+function init(){
+
+    // d3.json("samples.json").then((data) => {
+    //     console.log(data);
+    //     var sampleData = data;
+    var dropdownMenu = d3.select("#selDataset");
+
+    sampleData.names.forEach(function(name){
+        dropdownMenu.append("option").text(name).property("value");
+    });
+
+    buildPlot(sampleData.names[0]);
+};
+
+
+// Handler and listener for capturing user input
+
+// Add event listener for test subject ID dropdown
+d3.selectAll("#selDataset").on("change", optionChanged);
+
+// Handler for change on test subject ID no dropdown
+function optionChanged(){
+    d3.event.preventDefault();
+    var testSubjectID = dropdownMenu.property("value");
+    console.log(testSubjectID);
+
+    for (var i=0; i < sampleData.names.length; i++) {
+        if (testSubjectID === sampleData.names[i]){
+            buildPlot(i);
+        }
+    }
+};
+
+
 init();
