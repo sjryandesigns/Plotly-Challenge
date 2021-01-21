@@ -127,7 +127,7 @@ function optionChanged(){
         };
     };
 };
-
+});
 
 
 
@@ -171,4 +171,4 @@ function optionChanged(){
     //     margin: {t:0, b:0}
     // };
 
-    // Plotly.newPlot("gauge", gaugeData, gaugeLayout);
+    // Plotly.newPlot("gauge", gaugeData, gaugeLayout)
