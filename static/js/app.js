@@ -51,6 +51,7 @@ function buildPlot(index) {
         b: 30
         }
     };
+    
     // Plot Bar chart using data and layout
     Plotly.newPlot("bar", barData, barLayout)
 
