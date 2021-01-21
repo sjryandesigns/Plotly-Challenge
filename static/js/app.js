@@ -8,10 +8,15 @@ d3.json("samples.json").then((data) => {
         dropdownMenu.append("option").text(name).property("value");
     });
 
-    buildPlot(0);
+    buildPlot(0, sampleData);
+    console.log("here is sampledata")
+    console.log(sampleData)
+    console.log(dropdownMenu)
+    d3.selectAll("#selDataset").on("change", optionChanged(dropdownMenu, sampleData));
+});
 
 // Define fuction to build plots
-function buildPlot(index) {
+function buildPlot(index, sampleData) {
 
     // Save needed data for plots to variables 
     var otu_ids = sampleData.samples[index].otu_ids;
@@ -51,7 +56,7 @@ function buildPlot(index) {
         b: 30
         }
     };
-    
+
     // Plot Bar chart using data and layout
     Plotly.newPlot("bar", barData, barLayout)
 
@@ -97,9 +102,9 @@ function buildPlot(index) {
     // Clear demographic data
     demoData.html("");
 
-    // demoEntries.forEach(([key, value]) => {
-    //     demoData.append('p').text("${key} : ${value}");
-    // });
+    demoEntries.forEach(([key, value]) => {
+        demoData.append('p').text(`${key} : ${value}`);
+    });
 
     // idMetaData = sampleData.metadata[index]
     // console.log(idMetaData)
@@ -126,21 +131,29 @@ function buildPlot(index) {
 
 // Handler and listener for capturing user input
 // Add event listener for test subject ID dropdown
-d3.selectAll("#selDataset").on("change", optionChanged);
+
 
 // Handler for change on test subject ID no dropdown
-function optionChanged(){
-    d3.event.preventDefault();
-    var testSubjectID = dropdownMenu.property("value");
-    console.log(testSubjectID);
-
-    for (var i=0; i < sampleData.names.length; i++) {
-        if (testSubjectID === sampleData.names[i]){
-            buildPlot(i);
+function optionChanged(dropdownMenu){
+    d3.json("samples.json").then((data) => {
+        console.log(data);
+        var sampleData = data;
+    
+        console.log(d3.event);
+        console.log("options changed function")
+        // d3.event.preventDefault();
+        console.log(dropdownMenu)
+        var testSubjectID = dropdownMenu
+        console.log(testSubjectID);
+        console.log(sampleData);
+        for (var i=0; i < sampleData.names.length; i++) {
+            if (testSubjectID === sampleData.names[i]){
+                buildPlot(i, sampleData);
+            };
         };
-    };
+    });
 };
-});
+
 
 
 
