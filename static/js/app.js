@@ -84,30 +84,37 @@ function buildPlot(index) {
     Plotly.newPlot('bubble', bubbleData, bubbleLayout);
         
     // Get data needs for Demographics section
-    // var demoKeys = Object.keys(sampleData.metadata[index]);
-    // console.log(demoKeys);
-    // var demoValues = Object.values(sampleData.metadata[index]);
-    // console.log(demoValues);
+    var demoKeys = Object.keys(sampleData.metadata[index]);
+    console.log(demoKeys);
+    var demoValues = Object.values(sampleData.metadata[index]);
+    console.log(demoValues);
 
-    // var demoData = d3.select('#sample-metadata');
+    var demoData = d3.select('#sample-metadata');
 
-    // // Clear demographic data
-    // demoData.html("");
+    // Clear demographic data
+    demoData.html("");
 
-    // var idMetaData = sampleData.metadata.filter(testSubject => testSubject.id == index)[0];
+    idMetaData = sampleData.metadata[index]
+    console.log(idMetaData)
+
+
+    // var result = sampleData.metadata.filter(meta => meta.id.toString === index)[0];
     // console.log(idMetaData) - comes back undefined
+    // Object.entries(result).forEach((key)=> {
+    //     demoData.append('p').text(key[0].toUpperCase() + ": " + key[1] + "\n");
+    // });
 
-
-    // // var selection = demoData
-    // Object.entries(idMetaData).forEach(([key, value])=> {
-    //     demoData.append("p").text("${key} : ${value}");
+    // var selection = demoData
+    Object.entries(idMetaData).forEach(([key, value])=> {
+        demoData.append("p").text("${key} : ${value}");
+    });
     // })
     // sampleData.metadata.forEach(function(meta){
     //     demoData.append("p").text("${demoKeys[i]}: ${demoValues[i]}");
 
-    // // Append demographic data to demographics section of html
+    // // // Append demographic data to demographics section of html
     // for (var i=0; i < demoKeys.length; i++) {
-    //     demoData.append("p").text("${demoKeys[i]}: ${demoValues[i]}");
+    //     demoData.append("p").text("${demoKeys}: ${demoValues}");
     // };
 };
 
@@ -128,11 +135,6 @@ function optionChanged(){
     };
 };
 });
-
-
-
-
-
  // // Get data needs for Gauge chart (BONUS)
     // var washFreq = sampleData.metadata[index].wfreq;
 
