@@ -88,14 +88,22 @@ function buildPlot(index) {
     console.log(demoKeys);
     var demoValues = Object.values(sampleData.metadata[index]);
     console.log(demoValues);
+    var demoEntries = Object.entries(sampleData.metadata[index]);
+    console.log(demoEntries);
 
     var demoData = d3.select('#sample-metadata');
 
     // Clear demographic data
     demoData.html("");
 
-    idMetaData = sampleData.metadata[index]
-    console.log(idMetaData)
+    demoEntries.forEach(([key, value]) => {
+        demoData.append('p').text("${key} : ${value}");
+    });
+
+
+
+    // idMetaData = sampleData.metadata[index]
+    // console.log(idMetaData)
 
 
     // var result = sampleData.metadata.filter(meta => meta.id.toString === index)[0];
@@ -105,9 +113,9 @@ function buildPlot(index) {
     // });
 
     // var selection = demoData
-    Object.entries(idMetaData).forEach(([key, value])=> {
-        demoData.append("p").text("${key} : ${value}");
-    });
+    // Object.entries(idMetaData).forEach(([key, value])=> {
+    //     demoData.append("p").text("${key} : ${value}");
+    // });
     // })
     // sampleData.metadata.forEach(function(meta){
     //     demoData.append("p").text("${demoKeys[i]}: ${demoValues[i]}");
