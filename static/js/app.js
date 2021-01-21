@@ -89,21 +89,15 @@ function buildPlot(index) {
     // var demoValues = Object.values(sampleData.metadata[index]);
     // console.log(demoValues);
 
-    var demoData = d3.select('#sample-metadata');
-
-    var idMetaData = sampleData.metadata.filter(testSubject => testSubject.id == index)[0];
-    console.log(idMetaData)
-
-    var testSubjectID = dropdownMenu.property("value");
-    console.log(testSubjectID);
-
-    for (var i=0; i < sampleData.names.length; i++) {
-        if (testSubjectID === sampleData.names[i]){
-            buildPlot(i);
-        }
+    // var demoData = d3.select('#sample-metadata');
 
     // // Clear demographic data
     // demoData.html("");
+
+    // var idMetaData = sampleData.metadata.filter(testSubject => testSubject.id == index)[0];
+    // console.log(idMetaData) - comes back undefined
+
+
     // // var selection = demoData
     // Object.entries(idMetaData).forEach(([key, value])=> {
     //     demoData.append("p").text("${key} : ${value}");
@@ -114,8 +108,8 @@ function buildPlot(index) {
     // // Append demographic data to demographics section of html
     // for (var i=0; i < demoKeys.length; i++) {
     //     demoData.append("p").text("${demoKeys[i]}: ${demoValues[i]}");
-    };
-});
+    // };
+};
 
 // Handler and listener for capturing user input
 // Add event listener for test subject ID dropdown
@@ -130,8 +124,8 @@ function optionChanged(){
     for (var i=0; i < sampleData.names.length; i++) {
         if (testSubjectID === sampleData.names[i]){
             buildPlot(i);
-        }
-    }
+        };
+    };
 };
 
 
