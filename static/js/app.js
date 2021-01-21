@@ -96,15 +96,12 @@ function buildPlot(index) {
     // Clear demographic data
     demoData.html("");
 
-    demoEntries.forEach(([key, value]) => {
-        demoData.append('p').text("${key} : ${value}");
-    });
-
-
+    // demoEntries.forEach(([key, value]) => {
+    //     demoData.append('p').text("${key} : ${value}");
+    // });
 
     // idMetaData = sampleData.metadata[index]
     // console.log(idMetaData)
-
 
     // var result = sampleData.metadata.filter(meta => meta.id.toString === index)[0];
     // console.log(idMetaData) - comes back undefined
@@ -143,6 +140,10 @@ function optionChanged(){
     };
 };
 });
+
+
+
+
  // // Get data needs for Gauge chart (BONUS)
     // var washFreq = sampleData.metadata[index].wfreq;
 
